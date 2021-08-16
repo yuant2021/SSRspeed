@@ -37,6 +37,12 @@ Batch speed measuring tool based on Shadowsocks(R) and V2Ray
 - <del>Removed as requested by the developer</del>
 - Modify by [Yuant](https://github.com/yuant2007)
 
+## ToDo
+- [ ] 支持更多流媒体
+- [ ] 支持Clash订阅
+- [ ] 支持Vless/XTLS
+- [ ] ~~跑路~~
+
 ## 入门
 
 教程详见[Wiki](https://github.com/yuant2007/SSRspeed/wiki/Windows-%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B)
