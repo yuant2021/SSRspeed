@@ -10,6 +10,8 @@ Batch speed measuring tool based on Shadowsocks(R) and V2Ray
   <a href="https://github.com/yuant2007/SSRspeed/blob/master/LICENSE"><img src="https://img.shields.io/github/license/yuant2007/SSRspeed.svg"></a>
 </p>
 
+**WebAPI已被砍**  
+
 ## 特性
 - 支持单线程/起速
 - 支持导出为json,png等格式
@@ -81,7 +83,11 @@ Options:
 
 ### 示例
 ~~~~bash
-python3 main.py -yu https://get.exl.ink/api/v1/client/subscribe?xxxxxx --sort=spped
+python3 main.py -yu https://get.exl.ink/api/v1/client/subscribe?xxxxxx --sort=speed
 ~~~~
 
-**WebAPI已被砍**
+### 输出效果
+**节点复用分析**  
+![image.png](https://i.loli.net/2021/08/17/dUsXx6aeV78ATBH.png)
+**流媒体分析**
+![image.png](https://i.loli.net/2021/08/17/C8Mpc3SU65hXdGo.png)
