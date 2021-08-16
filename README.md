@@ -88,6 +88,6 @@ python3 main.py -yu https://get.exl.ink/api/v1/client/subscribe?xxxxxx --sort=sp
 
 ### 输出效果
 **节点复用分析**  
-![image.png](https://i.loli.net/2021/08/17/dUsXx6aeV78ATBH.png)
-**流媒体分析**
-![image.png](https://i.loli.net/2021/08/17/C8Mpc3SU65hXdGo.png)
+![image.png](https://i.loli.net/2021/08/17/dUsXx6aeV78ATBH.png)  
+**流媒体分析**  
+![image.png](https://i.loli.net/2021/08/17/C8Mpc3SU65hXdGo.png)  
