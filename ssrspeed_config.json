@@ -1,0 +1,155 @@
+{
+	"localAddress": "127.0.0.1",
+	"localPort": 1087,
+	"excludeRemarks": [
+		"剩余流量",
+		"到期时间",
+		"过期时间"
+	],
+	"proxy": {
+		"enabled": false,
+		"address": "127.0.0.1",
+		"port": 1080,
+		"username": null,
+		"password": null
+	},
+	"ntt": {
+		"enabled": true,
+		"internal_ip": "0.0.0.0",
+		"internal_port": 54320
+	},
+	"web": {
+		"listen": "127.0.0.1",
+		"port": 10870,
+		"token": ""
+	},
+	"exportResult": {
+		"from":"重庆联通300M",
+		"uploadResult": false,
+		"hide_max_speed": false,
+		"font": "./resources/fonts/SourceHanSansCN-Medium.otf",
+		"colors": [
+			{
+				"name": "origin",
+				"colors": {
+					"0.064": [
+						128,
+						255,
+						0
+					],
+					"0.512": [
+						255,
+						255,
+						0
+					],
+					"4.0": [
+						255,
+						128,
+						192
+					],
+					"16.0": [
+						255,
+						0,
+						0
+					]
+				}
+			},
+			{
+				"name": "chunxiaoyi",
+				"colors": {
+					"0.064": [
+						102,
+						255,
+						102
+					],
+					"0.512": [
+						255,
+						255,
+						102
+					],
+					"4.0": [
+						255,
+						178,
+						102
+					],
+					"16.0": [
+						255,
+						102,
+						102
+					],
+					"24.0": [
+						226,
+						140,
+						255
+					],
+					"32.0": [
+						102,
+						204,
+						255
+					],
+					"40.0": [
+						102,
+						102,
+						255
+					]
+				}
+			}
+		]
+	},
+	"uploadResult": {
+		"apiToken": "",
+		"server": "",
+		"remark": "Example Remark."
+	},
+	"fileDownload": {
+		"maxWorkers": 1,
+		"buffer": 4096,
+		"skipRuleMatch": false,
+		"rules": [
+			{
+				"mode": "match_isp",
+				"ISP": "Microsoft Corporation",
+				"tag": "Google"
+			},
+			{
+				"mode": "match_isp",
+				"ISP": "Google LLC",
+				"tag": "Default"
+			},
+			{
+				"mode": "match_location",
+				"countries": [
+					"TH"
+				],
+				"tag": "Google"
+			}
+		],
+		"downloadLinks": [
+			{
+				"link": "https://download.microsoft.com/download/2/0/E/20E90413-712F-438C-988E-FDAA79A8AC3D/dotnetfx35.exe",
+				"fileSize": 971,
+				"tag": "Default"
+			},
+			{
+				"link": "https://dl.google.com/android/studio/maven-google-com/stable/offline-gmaven-stable.zip",
+				"fileSize": 971,
+				"tag": "Google"
+			}
+		]
+	},
+	"webPageSimulation": {
+		"maxThread": 1,
+		"urls": [
+			"https://www.google.com.hk",
+			"https://www.youtube.com",
+			"https://www.bing.com",
+			"https://www.github.com",
+			"https://www.microsoft.com"
+		],
+		"cnUrls": [
+			"https://www.baidu.com",
+			"https://www.weibo.com",
+			"https://www.qq.com"
+		]
+	}
+}
