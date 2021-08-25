@@ -141,12 +141,12 @@
 		],
 		"downloadLinks": [
 			{
-				"link": "https://download.microsoft.com/download/2/0/E/20E90413-712F-438C-988E-FDAA79A8AC3D/dotnetfx35.exe",
-				"fileSize": 971,
+				"link": "https://download.microsoft.com/download/7/A/8/7A84E002-6512-4506-A812-CA66FF6766D9/officeserversp2013-kb2880552-fullfile-x64-en-us.exe",
+				"fileSize": 1909,
 				"tag": "Default"
 			},
 			{
-				"link": "https://dl.google.com/android/studio/maven-google-com/stable/offline-gmaven-stable.zip",
+				"link": "https://dl.google.com/dl/android/studio/install/3.4.1.0/android-studio-ide-183.5522156-windows.exe",
 				"fileSize": 971,
 				"tag": "Google"
 			}
