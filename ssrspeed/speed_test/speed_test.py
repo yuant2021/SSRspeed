@@ -41,6 +41,8 @@ class SpeedTest(object):
             "speed1": 0,
             "speed2": 0,
             "speed3": 0,
+            "speed4": 0,
+            "speed5": 0,
             "ping": 1,
             "gPingLoss": 1,
             "gPing": 0,
@@ -451,6 +453,8 @@ class SpeedTest(object):
                         _item["speed1"] = testRes[4]
                         _item["speed2"] = testRes[5]
                         _item["speed3"] = testRes[6]
+                        _item["speed4"] = testRes[7]
+                        _item["speed5"] = testRes[8]
                         try:
                             _item["trafficUsed"] = testRes[3]
                             _item["rawSocketSpeed"] = testRes[2]

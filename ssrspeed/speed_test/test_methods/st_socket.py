@@ -118,15 +118,11 @@ def speedTestSocket(port):
 	currentSpeed = 0
 	OLD_RECEIVED = 0
 	DELTA_RECEIVED = 0
-	speed1=1
-	speed2=3
-	speed3=5
-	tl=7
-	if (options.sr == "a"):
-		tl=4
-		speed1=0
-		speed2=1
-		speed3=2
+	TOTAL_RECEIVED2=0
+	speed1=0
+	speed2=1
+	speed3=2
+	tl=4
 	for i in range(1,tl):
 		time.sleep(0.5)
 		LOCK.acquire()
@@ -157,7 +153,108 @@ def speedTestSocket(port):
 		maxSpeed =maxSpeedList[len(maxSpeedList)-1]
 	else:
 		maxSpeed = currentSpeed
-	logger.info("Fetched {:.2f} KB in {:.2f} s.".format(TOTAL_RECEIVED / 1024,MAX_TIME))
-	return (TOTAL_RECEIVED / MAX_TIME,maxSpeed,rawSpeedList,TOTAL_RECEIVED,speed1,speed2,speed3)
+
+	logger.info("Fetched {:.2f} MB in {:.2f} s.".format(TOTAL_RECEIVED / 1024 / 1024,MAX_TIME))
+	maxSpeed1=maxSpeed
+	TOTAL_RECEIVED1=TOTAL_RECEIVED
+	TOTAL_RECEIVED2+=TOTAL_RECEIVED
+	rawSpeedList1=rawSpeedList
+	MAX_TIME1=MAX_TIME
+	
+	MAX_TIME = 0
+	TOTAL_RECEIVED = 0
+	EXIT_FLAG = False
+	for i in range(0,1):
+		nmsl = threading.Thread(target=speedTestThread,args=(res[0],))
+		nmsl.start()
+	maxSpeedList = []
+	maxSpeed = 0
+	currentSpeed = 0
+	OLD_RECEIVED = 0
+	DELTA_RECEIVED = 0
+	for i in range(1,11):
+		time.sleep(0.5)
+		LOCK.acquire()
+		DELTA_RECEIVED = TOTAL_RECEIVED - OLD_RECEIVED
+		OLD_RECEIVED = TOTAL_RECEIVED
+		LOCK.release()
+		currentSpeed = DELTA_RECEIVED / 0.5
+		maxSpeedList.append(currentSpeed)
+		print("\r[" + "="*i + "> [%d%%/100%%] [%.2f MB/s]" % (int(i * 10),currentSpeed / 1024 / 1024),end='')
+		if (EXIT_FLAG):
+			break
+	print("\r[" + "="*i + "] [100%%/100%%] [%.2f MB/s]" % (currentSpeed / 1024 / 1024),end='\n')
+	EXIT_FLAG = True
+	for i in range(0,10):
+		time.sleep(0.1)
+		if (MAX_TIME != 0):
+			break
+	if (MAX_TIME == 0):
+		logger.error("Socket Test Error !")
+		return (0, 0, [], 0)
+	restoreSocket()
+	rawSpeedList = copy.deepcopy(maxSpeedList)
+	maxSpeedList.sort()
+	if (len(maxSpeedList) > 12):
+		msum = 0
+		for i in range(12,len(maxSpeedList) - 2):
+			msum += maxSpeedList[i]
+		maxSpeed = (msum / (len(maxSpeedList) - 2 - 12))
+	else:
+		maxSpeed = currentSpeed
+	logger.info("SingleThread: Fetched {:.2f} MB in {:.2f} s.".format(TOTAL_RECEIVED / 1024 / 1024, MAX_TIME))
+
+	AvgStSpeed = TOTAL_RECEIVED / MAX_TIME
+	TOTAL_RECEIVED2+=TOTAL_RECEIVED
+
+	MAX_TIME = 0
+	TOTAL_RECEIVED = 0
+	EXIT_FLAG = False
+
+	for i in range(0,MAX_THREAD):
+		nmsl = threading.Thread(target=speedTestThread,args=(res[0],))
+		nmsl.start()
+		
+	maxSpeedList = []
+	maxSpeed = 0
+	currentSpeed = 0
+	OLD_RECEIVED = 0
+	DELTA_RECEIVED = 0
+	for i in range(1,11):
+		time.sleep(0.5)
+		LOCK.acquire()
+		DELTA_RECEIVED = TOTAL_RECEIVED - OLD_RECEIVED
+		OLD_RECEIVED = TOTAL_RECEIVED
+		LOCK.release()
+		currentSpeed = DELTA_RECEIVED / 0.5
+		maxSpeedList.append(currentSpeed)
+		print("\r[" + "="*i + "> [%d%%/100%%] [%.2f MB/s]" % (int(i * 10),currentSpeed / 1024 / 1024),end='')
+		if (EXIT_FLAG):
+			break
+	print("\r[" + "="*i + "] [100%%/100%%] [%.2f MB/s]" % (currentSpeed / 1024 / 1024),end='\n')
+	EXIT_FLAG = True
+	for i in range(0,10):
+		time.sleep(0.1)
+		if (MAX_TIME != 0):
+			break
+	if (MAX_TIME == 0):
+		logger.error("Socket Test Error !")
+		return (0, 0, [], 0)
+        
+	restoreSocket()
+	rawSpeedList = copy.deepcopy(maxSpeedList)
+	maxSpeedList.sort()
+	if (len(maxSpeedList) > 12):
+		msum = 0
+		for i in range(12,len(maxSpeedList) - 2):
+			msum += maxSpeedList[i]
+		maxSpeed = (msum / (len(maxSpeedList) - 2 - 12))
+	else:
+		maxSpeed = currentSpeed
+	logger.info("MultiThread: Fetched {:.2f} MB in {:.2f} s.".format(TOTAL_RECEIVED / 1024 / 1024, MAX_TIME))
+	AvgSpeed = TOTAL_RECEIVED / MAX_TIME
+	TOTAL_RECEIVED2+=TOTAL_RECEIVED
+	
+	return (TOTAL_RECEIVED1 / MAX_TIME1,maxSpeed1,rawSpeedList1,TOTAL_RECEIVED2,speed1,speed2,speed3,AvgStSpeed,AvgSpeed)
 
 

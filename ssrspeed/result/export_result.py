@@ -340,20 +340,22 @@ class ExportResult(object):
 		googlePingRightPosition = tcpPingRightPosition + otherWidth + 25
 		dspeedRightPosition = googlePingRightPosition + otherWidth
 		maxDSpeedRightPosition = dspeedRightPosition + otherWidth
-		ntt_right_position = maxDSpeedRightPosition + otherWidth + 80
-		imageRightPosition = dspeedRightPosition
+		StSRightPosition = maxDSpeedRightPosition + otherWidth
+		MuSRightPosition = StSRightPosition+otherWidth
+		ntt_right_position = MuSRightPosition + otherWidth + 80
+		imageRightPosition = MuSRightPosition
 
 		if not self.__hide_max_speed:
-			imageRightPosition = maxDSpeedRightPosition
+			imageRightPosition = imageRightPosition
 
 		if not self.__hide_ntt:
 			if self.__hide_max_speed:
-				maxDSpeedRightPosition = dspeedRightPosition
+				maxDSpeedRightPosition = MuSRightPosition
 
 			ntt_right_position = imageRightPosition + otherWidth + 80
 			imageRightPosition = ntt_right_position
 
-		newImageHeight = imageHeight + 30 * 4
+		newImageHeight = imageHeight + 30 * 7
 		resultImg = Image.new("RGB",(imageRightPosition, newImageHeight),(255,255,255))
 		draw = ImageDraw.Draw(resultImg)
 
@@ -382,6 +384,8 @@ class ExportResult(object):
 		draw.line((dspeedRightPosition, 30, dspeedRightPosition, imageHeight + 30 - 1),fill=(127,127,127),width=1)
 		if not self.__hide_max_speed:
 			draw.line((maxDSpeedRightPosition, 30, maxDSpeedRightPosition, imageHeight + 30 - 1),fill=(127,127,127),width=1)
+		draw.line((StSRightPosition, 30, StSRightPosition, imageHeight + 30 - 1),fill=(127,127,127),width=1)
+		draw.line((MuSRightPosition, 30, MuSRightPosition, imageHeight + 30 - 1),fill=(127,127,127),width=1)
 		draw.line((imageRightPosition, 0, imageRightPosition, newImageHeight - 1),fill=(127,127,127),width=1)
 	
 		draw.line((0,0,imageRightPosition - 1,0),fill=(127,127,127),width=1)
@@ -405,28 +409,28 @@ class ExportResult(object):
 			(
 				remarkRightPosition + self.__getBasePos(lossRightPosition - remarkRightPosition, "speed1"), 30 + 4
 			),
-			"speed1", font=resultFont, fill=(0,0,0)
+			"起速1", font=resultFont, fill=(0,0,0)
 		)
 
 		draw.text(
 			(
 				lossRightPosition + self.__getBasePos(tcpPingRightPosition - lossRightPosition, "speed2"), 30 + 4
 			),
-			"speed2", font=resultFont, fill=(0,0,0)
+			"起速2", font=resultFont, fill=(0,0,0)
 		)
 
 		draw.text(
 			(
 				tcpPingRightPosition + self.__getBasePos(googlePingRightPosition - tcpPingRightPosition, "speed3"), 30 + 4
 			),
-			"speed3", font=resultFont, fill=(0,0,0)
+			"起速3", font=resultFont, fill=(0,0,0)
 		)
 
 		draw.text(
 			(
 				googlePingRightPosition + self.__getBasePos(dspeedRightPosition - googlePingRightPosition, "AvgSpeed"), 30 + 4
 			),
-			"AvgSpeed", font=resultFont, fill=(0,0,0)
+			"平均起速", font=resultFont, fill=(0,0,0)
 		)
 
 		if not self.__hide_max_speed:
@@ -434,13 +438,24 @@ class ExportResult(object):
 				(
 					dspeedRightPosition + self.__getBasePos(maxDSpeedRightPosition - dspeedRightPosition, "MaxSpeed"), 30 + 4
 					),
-				"MaxSpeed", font=resultFont, fill=(0,0,0)
+				"最高起速", font=resultFont, fill=(0,0,0)
 			)
-
+		draw.text(
+			(
+				maxDSpeedRightPosition + self.__getBasePos(StSRightPosition - maxDSpeedRightPosition, "单线程"), 30 + 4
+			),
+			"单线程", font=resultFont, fill=(0,0,0)
+		)
+		draw.text(
+			(
+				StSRightPosition + self.__getBasePos(MuSRightPosition - StSRightPosition, "单线程"), 30 + 4
+			),
+			"多线程", font=resultFont, fill=(0,0,0)
+		)
 		if not self.__hide_ntt:
 			draw.text(
 				(
-					maxDSpeedRightPosition + self.__getBasePos(ntt_right_position - maxDSpeedRightPosition, "UDP NAT Type"), 30 + 4
+					MuSRightPosition + self.__getBasePos(ntt_right_position - MuSRightPosition, "UDP NAT Type"), 30 + 4
 					),
 				"UDP NAT Type", font=resultFont, fill=(0,0,0)
 			)
@@ -490,6 +505,7 @@ class ExportResult(object):
 				speed = self.__parseSpeed(speed)
 				pos = googlePingRightPosition + self.__getBasePos(dspeedRightPosition - googlePingRightPosition, speed)
 				draw.text((pos, 30 * j + 30 + 1), speed,font=resultFont,fill=(0,0,0))
+			
 
 			if not self.__hide_max_speed:
 				maxSpeed = item["maxDSpeed"]
@@ -502,13 +518,24 @@ class ExportResult(object):
 					pos = dspeedRightPosition + self.__getBasePos(maxDSpeedRightPosition - dspeedRightPosition, maxSpeed)
 					draw.text((pos, 30 * j + 30 + 1), maxSpeed,font=resultFont,fill=(0,0,0))
 
+			speed4 = item["speed4"]
+			draw.rectangle((maxDSpeedRightPosition + 1,30 * j + 30 + 1,StSRightPosition - 1,30 * j + 60 -1),self.__getColor(speed4))
+			speed4 = self.__parseSpeed(speed4)
+			pos = maxDSpeedRightPosition + self.__getBasePos(StSRightPosition - maxDSpeedRightPosition,speed4)
+			draw.text((pos, 30 * j + 30 + 4),speed4,font=resultFont,fill=(0,0,0))
+			
+			speed5 = item["speed5"]
+			draw.rectangle((StSRightPosition + 1,30 * j + 30 + 1,MuSRightPosition - 1,30 * j + 60 -1),self.__getColor(speed5))
+			speed5 = self.__parseSpeed(speed5)
+			pos = StSRightPosition + self.__getBasePos(MuSRightPosition - StSRightPosition,speed5)
+			draw.text((pos, 30 * j + 30 + 4),speed5,font=resultFont,fill=(0,0,0))
 			if not self.__hide_ntt:
 				nat_type = item["ntt"]["type"]
 				if not nat_type:
-					pos = maxDSpeedRightPosition + self.__getBasePos(ntt_right_position - maxDSpeedRightPosition, "Unknown")
+					pos = MuSRightPosition + self.__getBasePos(ntt_right_position - MuSRightPosition, "Unknown")
 					draw.text((pos, 30 * j + 30 + 1),"Unknown",font=resultFont,fill=(0,0,0))
 				else:
-					pos = maxDSpeedRightPosition + self.__getBasePos(ntt_right_position - maxDSpeedRightPosition, nat_type)
+					pos = MuSRightPosition + self.__getBasePos(ntt_right_position - MuSRightPosition, nat_type)
 					draw.text((pos, 30 * j + 30 + 1), nat_type,font=resultFont,fill=(0,0,0))
 		
 		files = []
@@ -528,15 +555,13 @@ class ExportResult(object):
 			fill=(0,0,0)
 		)
 	#	draw.line((0,newImageHeight - 30 * 3 - 1,imageRightPosition,newImageHeight - 30 * 3 - 1),fill=(127,127,127),width=1)
-		text = "结果说明：普通快速模式，节点测试3秒，取1秒 2秒 3秒的节点速度，以及均速和最高速度"
-		if (options.sr == "a"):
-			text = "结果说明：起速测试模式，节点测试1.5秒，取0.5秒 1秒 1.5秒的节点速度，以及均速和最高速度"
+		text = "结果说明：\n起速: 节点测试1.5秒，取0.5秒 1秒 1.5秒的节点速度，以及均速和最高速度(多线程)\n单线程: 节点单线程测试5秒，取5秒均速\n多线程: 节点多线程测试5秒，取5秒均速"
 		draw.text((5,imageHeight + 30 * 2 + 4),
 			text,
 			font=resultFont,
 			fill=(0,0,0)
 		)
-		draw.text((5,imageHeight + 30 * 3 + 4),
+		draw.text((5,imageHeight + 30 * 6 + 4),
 			"开源地址:https://github.com/yuant2007/SSRspeed",
 			font=resultFont,
 			fill=(0,0,0)
